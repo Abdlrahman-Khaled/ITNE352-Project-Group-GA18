@@ -83,7 +83,7 @@ def save_to_JSON(client_name, option ,data):
 # and adds at the beggiing an index for each article 
 def get_headlines_brief(articles):
     brief_list = []
-    for i, article in articles:
+    for i, article in enumerate(articles):
         brief = {
             "index" : i+1,
             # add {} empty value as default for no source and N/A if the source is none ,so it does not crash
