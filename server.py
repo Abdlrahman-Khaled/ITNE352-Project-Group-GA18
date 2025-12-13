@@ -132,6 +132,20 @@ def get_sources_brief(sources):
         brif_list.append(brief)
     return brif_list
 
+# takes a single source from the stored list,
+# extracts all 6 details (source name, country, description, URL, category, language),
+# and returns them as a dictionary to send to the client.
+def get_source_details(source):
+    details = {
+        "source_name": source.get("name", "N/A"),
+        "country": source.get("country", "N/A"),
+        "description": source.get("description", "N/A"),
+        "url": source.get("url", "N/A"),
+        "category": source.get("category", "N/A"),
+        "language": source.get("language", "N/A")
+    }
+    return details
+
 
 
 def handle_client(client_socket, client_address):
