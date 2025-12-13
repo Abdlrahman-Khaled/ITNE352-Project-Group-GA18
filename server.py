@@ -68,3 +68,12 @@ def fetch_sources(option,value=None): # set the value as default None
     except json.JSONDecodeError as e:
         print(f"JSON ERROR {e}")
         return []
+
+# save the data comes form fetch_sources and fetch_headlines to JSON
+# and the format is <client_name>_<option>_<group_ID>.json
+def save_to_JSON(client_name, option ,data):
+    fileName = f"{client_name}_{option}_{group_id}.json"
+    with open(fileName,"w") as file:
+        json.dump(data,file,indent=4)
+    print(f"FILE Saved as {fileName}")
+    return fileName
