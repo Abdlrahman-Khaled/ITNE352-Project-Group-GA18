@@ -77,3 +77,19 @@ def save_to_JSON(client_name, option ,data):
         json.dump(data,file,indent=4)
     print(f"FILE Saved as {fileName}")
     return fileName
+
+# Takes a list of articles form that returned from fetch_headlines(),
+# extract these details (source name,authour,title)
+# and adds at the beggiing an index for each article 
+def get_headlines_brief(articles):
+    brief_list = []
+    for i, article in articles:
+        brief = {
+            "index" : i+1,
+            # add {} empty value as default for no source and N/A if the source is none ,so it does not crash
+            "source name": article.get("source",{}).get("nmae","N/A"),
+            "author": article.get("author"),
+            "title": article.get("title")
+        }
+        brief_list.append(brief)
+    return brief_list
