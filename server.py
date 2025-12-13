@@ -38,3 +38,33 @@ def fetch_headlines(option,value=None):
     except json.JSONDecodeError as e:
         print(f"JSON ERROR {e}")
         return []
+
+# connects to NewsAPI, builds the correct URL 
+# based on user's choice (category, country, language, or all)
+# fetches news sources and returns maximum 15 sources as a list.
+def fetch_sources(option,value=None): # set the value as default None
+    api_url = "https://newsapi.org/v2/top-headlines/sources?"
+
+    if option == "category":
+        url = f"{api_url}category={value}&apiKey={API_key}"
+    elif option == "country":
+        url = f"{api_url}country={value}&apiKey={API_key}"
+    elif option == "language":
+        url = f"{api_url}language={value}&apiKey={API_key}"
+    else:
+        url = f"{api_url}country=us&apiKey={API_key}"
+
+    try:
+        respon = urllib.request.urlopen(url)
+        data = json.loads(respon.read().decode())
+        return data.get("sources",[])[:15]
+    
+    except urllib.error.HTTPError as e:
+        print(f"HTTP ERROR {e.code} : {e.reason}")
+        return [] # returns empty list insted of shut down the program
+    except urllib.error.URLError as e:
+        print(f" URL ERROR {e.reason}")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"JSON ERROR {e}")
+        return []
