@@ -94,6 +94,32 @@ def get_headlines_brief(articles):
         brief_list.append(brief)
     return brief_list
 
+#  takes a single article from the stored list,
+#  extracts all 7 details (source name, author, title, URL, description, publish date, publish time),
+#  and returns them as a dictionary to send to the client
+def get_headline_details(article):
+    # split date and time
+    published_at = article.get("publishedAt", None) # set the date to null if there is no one
+    # check if publish date exit
+    if published_at:
+        date_part = published_at[0:10]
+        time_part = published_at[11:19]
+    else:
+        date_part = "N/A" # for display
+        time_part = "N/A"
+    details = {
+        "source_name": article.get("source", {}).get("name", "N/A"),
+        "author": article.get("author", "N/A"), # for display
+        "title": article.get("title", "N/A"),
+        "url": article.get("url", "N/A"),
+        "description": article.get("description", "N/A"),
+        "publish_date": date_part,
+        "publish_time": time_part
+    }
+    return details
+
+
+
 def handle_client(client_socket, client_address):
 
     client_name = None
