@@ -119,6 +119,20 @@ def get_headline_details(article):
     return details
 
 
+# takes the list of sources teturned by fetch_sources(),
+# extract these details (ourcename)
+# adds an indext at the begging then return the list
+def get_sources_brief(sources):
+    brif_list = []
+    for i,source in enumerate(sources): # enumerate() puts an index to each element in a list and represented as i 
+        brief = {
+            "index": i+1,
+            "source_name": source.get("name", "N/A")
+        }
+        brif_list.append(brief)
+    return brif_list
+
+
 
 def handle_client(client_socket, client_address):
 
