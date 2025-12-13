@@ -87,9 +87,122 @@ def get_headlines_brief(articles):
         brief = {
             "index" : i+1,
             # add {} empty value as default for no source and N/A if the source is none ,so it does not crash
-            "source name": article.get("source",{}).get("nmae","N/A"),
+            "source_name": article.get("source",{}).get("nmae","N/A"),
             "author": article.get("author"),
             "title": article.get("title")
         }
         brief_list.append(brief)
     return brief_list
+
+def handle_client(client_socket, client_address):
+
+    client_name = None
+    
+    current_headlines = []
+    current_sources = []
+    
+    try:
+        
+        client_name = client_socket.recv(1024).decode().strip()
+        
+        
+        print(f"\n[+] NEW CONNECTION: {client_name} from {client_address}")
+        
+        
+        client_socket.send("Connected to server successfully".encode())
+        
+
+        while True:
+
+            request = client_socket.recv(4096).decode().strip()
+            
+            if not request:
+                break
+            
+            
+            try:
+                request_data = json.loads(request)
+            except json.JSONDecodeError:
+                client_socket.send(json.dumps({"error": "Invalid request format"}).encode())
+                continue
+            
+            request_type = request_data.get("type", "")
+            option = request_data.get("option", "")
+            value = request_data.get("value", "")
+            
+            print(f"[REQUEST] Client: {client_name} | Type: {request_type} | Option: {option} | Value: {value}")
+            
+
+            if request_type == "quit":
+                client_socket.send(json.dumps({"status": "goodbye"}).encode())
+                break
+            
+
+            
+            if request_type == "headlines":
+                current_headlines = fetch_headlines(option, value)
+                
+     
+                save_to_json(client_name, f"headlines_{option}", current_headlines)
+                
+                brief_list = get_headlines_brief(current_headlines)
+                response = {
+                    "status": "success",
+                    "type": "headlines_list",
+                    "data": brief_list
+                }
+                client_socket.send(json.dumps(response).encode())
+            
+
+            elif request_type == "sources":
+                current_sources = fetch_sources(option, value)
+                
+                save_to_json(client_name, f"sources_{option}", current_sources)
+                
+                brief_list = get_sources_brief(current_sources)
+                response = {
+                    "status": "success",
+                    "type": "sources_list",
+                    "data": brief_list
+                }
+                client_socket.send(json.dumps(response).encode())
+            
+
+            
+            elif request_type == "headline_details":
+                index = int(request_data.get("index", 1)) - 1  
+                if 0 <= index < len(current_headlines):
+                    details = get_headline_details(current_headlines[index])
+                    response = {
+                        "status": "success",
+                        "type": "headline_details",
+                        "data": details
+                    }
+                else:
+                    response = {"status": "error", "message": "Invalid index"}
+                client_socket.send(json.dumps(response).encode())
+            
+            elif request_type == "source_details":
+                index = int(request_data.get("index", 1)) - 1 
+                if 0 <= index < len(current_sources):
+                    details = get_source_details(current_sources[index])
+                    response = {
+                        "status": "success",
+                        "type": "source_details",
+                        "data": details
+                    }
+                else:
+                    response = {"status": "error", "message": "Invalid index"}
+                client_socket.send(json.dumps(response).encode())
+            
+            else:
+                response = {"status": "error", "message": "Unknown request type"}
+                client_socket.send(json.dumps(response).encode())
+    
+    except Exception as e:
+        print(f"[ERROR] {client_name}: {e}")
+    
+    finally:
+        
+        print(f"[-] DISCONNECTED: {client_name}")
+        client_socket.close()
