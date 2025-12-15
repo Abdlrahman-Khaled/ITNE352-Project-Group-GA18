@@ -39,24 +39,34 @@ def display_Sources_Menu():
 def main():
     CSocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-    CSocket.connect((hostIP,port))
+   # CSocket.connect((hostIP,port))
     print("\n"+"*"*15+" NEWS SERVICE SERVER "+"*"*15)
     Cname=input("Enter your name :")
-    CSocket.sendall(Cname.encode("UTF-8"))
-    response=CSocket.recv(2048).decode("UTF-8")
-    print("server:"+response)
+    # CSocket.sendall(Cname.encode("UTF-8"))
+    #response=CSocket.recv(2048).decode("UTF-8")
+    #print("server:"+response)
 
     while True:
-        display_Main_Menu()
-        user_Choice=input("Enter your choice(1,2,or 3):")
+        try:
+            display_Main_Menu()
+            user_Choice=input("Enter your choice(1,2,or 3):")
 
-        if user_Choice=="1":
-            pass
-        elif user_Choice=="2":
-            pass
-        elif user_Choice=="3":
-            pass
-        else:
-            print("Invalid choice")
+            if user_Choice=="1":
+                pass
+            elif user_Choice=="2":
+                pass
+            elif user_Choice=="3":
+                pass
+            else:
+                print("Invalid choice")
+
+        except ConnectionRefusedError:
+            print("can't connect to server,The server is runing?")
+        except Exception as E:
+            print("The Error is : ",E)
+        finally:
+         CSocket.close()
+
+main()
 
 
