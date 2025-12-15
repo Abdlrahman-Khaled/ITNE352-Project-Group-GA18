@@ -1,6 +1,6 @@
 import socket
 
-host="127.0.0.1"
+hostIP="127.0.0.1"
 port=5060
 
 Countries=["au", "ca", "jp", "ae", "sa", "kr", "us", "ma"]
@@ -36,5 +36,27 @@ def display_Sources_Menu():
 5.Back to the main menu    """)
 
 
-display_Headlines_Menu()
-display_Sources_Menu()
+def main():
+    CSocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+    CSocket.connect((hostIP,port))
+    print("\n"+"*"*15+" NEWS SERVICE SERVER "+"*"*15)
+    Cname=input("Enter your name :")
+    CSocket.sendall(Cname.encode("UTF-8"))
+    response=CSocket.recv(2048).decode("UTF-8")
+    print("server:"+response)
+
+    while True:
+        display_Main_Menu()
+        user_Choice=input("Enter your choice(1,2,or 3):")
+
+        if user_Choice=="1":
+            pass
+        elif user_Choice=="2":
+            pass
+        elif user_Choice=="3":
+            pass
+        else:
+            print("Invalid choice")
+
+
