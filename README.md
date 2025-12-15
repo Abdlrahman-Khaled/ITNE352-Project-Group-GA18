@@ -62,15 +62,15 @@ All libraries are built-in:
 **server functions
 | Function | What it does |
 |----------|--------------|
-| 'fetch_headlines()' | Gets news headlines from API |
-| 'fetch_sources()' | Gets news sources from API |
-| 'save_to_JSON()' | Saves data to JSON file |
-| 'get_headlines_brief()' | Gets brief headline info (source, author, title) |
-| 'get_headline_details()' | Gets full headline info |
-| 'get_sources_brief()' | Gets brief source info (name only) |
-| 'get_source_details()' | Gets full source info |
-| 'handle_client()' | Handles one client connection |
-| 'main()' | Starts server and accepts connections, and does not run the server if the file is imported unless it calls the main() function |
+| `fetch_headlines()` | Gets news headlines from API |
+| `fetch_sources()` | Gets news sources from API |
+| `save_to_JSON()` | Saves data to JSON file |
+| `get_headlines_brief()` | Gets brief headline info (source, author, title) |
+| `get_headline_details()` | Gets full headline info |
+| `get_sources_brief()` | Gets brief source info (name only) |
+| `get_source_details()` | Gets full source info |
+| `handle_client()` | Handles one client connection |
+| `main()` | Starts server and accepts connections, and does not run the server if the file is imported unless it calls the main() function |
 
 ### client.py
 
