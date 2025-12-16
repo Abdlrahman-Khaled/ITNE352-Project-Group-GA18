@@ -84,6 +84,7 @@ All libraries are built-in:
 | `display_headlines_list()` | Displays brief list of headlines (source, author, title) |
 | `display_Sources_List()` | Displays brief list of sources (name only) |
 | `display_Sources_Menu()` | Shows sources menu |
+| `display_source_details()` | Displays full details of one selected source |
 | `send_request()` | Sends JSON request to server and receives JSON response |
 | `get_choice()` | Gets and validates numeric input from user (1 to max) |
 | `send_Request()` | Sends request to server |
