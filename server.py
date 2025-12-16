@@ -6,7 +6,7 @@ import urllib.error
 
 API_key = "da2a3228d31f45f3809df6be622c2749" 
 host = "127.0.0.1"
-port = 5060
+port = 5000
 group_id ="GA18"
 
 #This function connects to NewsAPI website and gets
