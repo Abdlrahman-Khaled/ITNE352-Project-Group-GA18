@@ -78,12 +78,12 @@ def display_Headlies_List(data):
 def display_Headlines_Details(data):
     print("\n"+"*"*15+" Headlines Details "+"*"*15)
 
-    print(f"name: {data["source_name"]}")
-    print(f"Country: {data["country"]}")
-    print(f"Description: {data["description"]}")
-    print(f"URL: {data["URL"]}")
-    print(f"Category: {data["Category"]}")
-    print(f"Language: {data["Language"]}")
+    print(f"name: {data['source_name']}")
+    print(f"Country: {data['country']}")
+    print(f"Description: {data['description']}")
+    print(f"URL: {data['URL']}")
+    print(f"Category: {data['Category']}")
+    print(f"Language: {data['Language']}")
 
     print("*"*50)
 
@@ -104,7 +104,7 @@ def get_Choice(prompt, Max_Value):
             print("Invalid input.Enter number")
 
 def send_Request(CSocket,request):
-    CSocket.send(json.dump(request).encode("UTF-8"))
+    CSocket.send(json.dumps(request).encode("UTF-8"))
     response=CSocket.recv(10000).decode()
     return json.loads(response)
 
@@ -181,12 +181,12 @@ def display_Sources_List(data):
 def display_Sources_Details(data):
     print("\n"+"*"*15+" Sources Details "+"*"*15)
 
-    print(f"name: {data["source_name"]}")
-    print(f"Country: {data["country"]}")
-    print(f"Description: {data["description"]}")
-    print(f"URL: {data["URL"]}")
-    print(f"Category: {data["Category"]}")
-    print(f"Language: {data["Language"]}")
+    print(f"name: {data['source_name']}")
+    print(f"Country: {data['country']}")
+    print(f"Description: {data['description']}")
+    print(f"URL: {data['URL']}")
+    print(f"Category: {data['Category']}")
+    print(f"Language: {data['Language']}")
 
     print("*"*50)
 
@@ -234,7 +234,7 @@ def handle_Sources_Menu(CSocket):
 
             if response.get("status") == "success":
                 sources = response.get("data", [])
-                display_Headlies_List(sources)
+                display_Sources_List(sources)
 
                 if sources:
                     detail = input("\nenter number for details or (0 to skip)")
@@ -243,20 +243,21 @@ def handle_Sources_Menu(CSocket):
                         detail_Response = send_Request(CSocket, datail_Request)
 
                         if detail_Response.get("status") == "success":
-                            display_Sources_Menu(detail_Response.get("data",{ }))
+                            display_Sources_Details(detail_Response.get("data", {}))
+
 
                         else:
                             print("Error geting details")
             else:
                 print("Error: " + response.get("message", "Unknown Error"))
 
-
+#display_Categories
 
 def main():
     CSocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     try:
             CSocket.connect((hostIP,port))
-            print("\n"+"*"*15+" NEWS SERVICE SERVER "+"*"*15)
+            print("\n"+"*"*15+" NEWS SERVICE CLIENT "+"*"*15)
             Cname=input("Enter your name :")
             CSocket.sendall(Cname.encode("UTF-8"))
             response=CSocket.recv(2048).decode("UTF-8")
@@ -268,11 +269,14 @@ def main():
                 user_Choice=input("Enter your choice(1,2,or 3):")
 
                 if user_Choice=="1":
-                    pass
+                    handle_Headlines_Menu(CSocket)
                 elif user_Choice=="2":
-                    pass
+                    handle_Sources_Menu(CSocket)
                 elif user_Choice=="3":
-                    pass
+                    quit={"type":"quit"}
+                    CSocket.send(json.dumps(quit).encode("UTF-8"))
+                    print("\nBye")
+                    break
                 else:
                      print("Invalid choice")
 
@@ -284,5 +288,7 @@ def main():
         CSocket.close()
 
 
+if __name__ =="__main__":
+    main()
 
 
