@@ -87,7 +87,7 @@ def get_headlines_brief(articles):
         brief = {
             "index" : i+1,
             # add {} empty value as default for no source and N/A if the source is none ,so it does not crash
-            "source_name": article.get("source",{}).get("nmae","N/A"),
+            "source_name": article.get("source",{}).get("name","N/A"),
             "author": article.get("author"),
             "title": article.get("title")
         }
