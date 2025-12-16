@@ -78,7 +78,14 @@ All libraries are built-in:
 |----------|--------------|
 | `display_Main_Menu()` | Shows main menu |
 | `display_Headlines_Menu()` | Shows headlines menu |
+| `display_categories()` | Shows list of 6 categories for user to select |
+| `display_countries()` | Shows list of 8 countries for user to select |
+| `display_languages()` | Shows list of 2 languages for user to select |
+| `display_headlines_list()` | Displays brief list of headlines (source, author, title) |
+| `display_Sources_List()` | Displays brief list of sources (name only) |
 | `display_Sources_Menu()` | Shows sources menu |
+| `send_request()` | Sends JSON request to server and receives JSON response |
+| `get_choice()` | Gets and validates numeric input from user (1 to max) |
 | `send_Request()` | Sends request to server |
 | `handle_Headlines_Menu()` | Handles headlines options |
 | `handle_Sources_Menu()` | Handles sources options |
