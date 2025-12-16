@@ -37,11 +37,6 @@ def display_Sources_Menu():
     print("*"*50)
 
 
-
-
-
-
-
 def display_Countries():
     print("\nCountries: ")
     for num,countri in enumerate(Countries,1):
@@ -64,9 +59,55 @@ def display_Languages():
 
 
 
-display_Countries()
-display_Categories()
-display_Languages()
+
+
+
+def get_Choice(prompt, Max_Value):
+    while True:
+
+        try:
+            user_Choice =int(input(prompt))
+            if 1 <= user_Choice<= Max_Value:
+                return user_Choice
+            print(f"Enter number between 1 and {Max_Value}: ")
+        except
+            print("Invalid input.Enter number")
+
+
+def handle_Headlines_Menu(CSocket):
+    while True:
+        display_Headlines_Menu()
+        uesr_Choice=input("Enter your choice (1-5): ")
+
+        request=None
+
+        if uesr_Choice=="1":
+            keyword=input("enter keyword: ")
+            request={"type":"headlines", "option":"keyword","value":keyword}
+
+        elif uesr_Choice=="2":
+            display_Categories()
+            index=get_Choice("Select country(1-8):",8)
+
+        elif uesr_Choice =="3":
+            display_Countries()
+            index=get_Choice("Select country(1-8):",8)
+            request={"type":"Headlines","option":"country","value":Countries[index-1]}
+
+        elif uesr_Choice =="4":
+            request={"type":"Headlines","option":"all","value":""}
+
+
+        elif uesr_Choice =="5":
+            return
+        else:
+            print("Invalid value")
+            continue
+
+
+
+
+
 
 
 
