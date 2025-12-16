@@ -1,3 +1,4 @@
+import json
 import socket
 
 hostIP="127.0.0.1"
@@ -59,6 +60,35 @@ def display_Languages():
 
 
 
+def display_Headlies_List(data):
+    print("\n"+"*"*15+" Headlines Details "+"*"*15)
+
+    if not data:
+        print("Can't found results. ")
+        return
+    for item in data:
+        print(f"\n[{item["index"]}]")
+        print(f"Source: {item["source_Name"]}")
+        print(f"Author: {item["author"]}")
+        print(f"Title: {item["title"]}")
+    print("*"*50)
+
+
+
+def display_Headlines_Details(data):
+    print("\n"+"*"*15+" Headlines Details "+"*"*15)
+
+    print(f"name: {data["source_name"]}")
+    print(f"Country: {data["country"]}")
+    print(f"Description: {data["description"]}")
+    print(f"URL: {data["URL"]}")
+    print(f"Category: {data["Category"]}")
+    print(f"Language: {data["Language"]}")
+
+    print("*"*50)
+
+
+
 
 
 
@@ -70,9 +100,13 @@ def get_Choice(prompt, Max_Value):
             if 1 <= user_Choice<= Max_Value:
                 return user_Choice
             print(f"Enter number between 1 and {Max_Value}: ")
-        except
+        except:
             print("Invalid input.Enter number")
 
+def send_Request(CSocket,request):
+    CSocket.send(json.dump(request).encode("UTF-8"))
+    response=CSocket.recv(10000).decode()
+    return json.loads(response)
 
 def handle_Headlines_Menu(CSocket):
     while True:
@@ -104,14 +138,27 @@ def handle_Headlines_Menu(CSocket):
             print("Invalid value")
             continue
 
+        if request:
 
+            response=send_Request(CSocket,request)
 
+            if response.get("status")== "success" :
+                headlines=response.get("data" ,[])
+                display_Headlies_List(headlines)
 
+                if headlines:
+                    detail =input("\nenter number for details or (0 to skip)")
+                    if detail !="0":
+                        datail_Request={"type":"headline_Details","index":detail}
+                        detail_Response=send_Request(CSocket,datail_Request)
 
+                        if detail_Response.get("status")=="success":
+                            display_Headlines_Details(detail_Response.get("data",{ }))
 
-
-
-
+                        else:
+                            print("Error geting details")
+            else:
+                print("reeor: "+response.get("message", "Unknown reeor"))
 
 
 
