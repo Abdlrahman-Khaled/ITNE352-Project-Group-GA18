@@ -76,12 +76,12 @@ All libraries are built-in:
 
 | Function | What it does |
 |----------|--------------|
-| `display_main_menu()` | Shows main menu |
-| `display_headlines_menu()` | Shows headlines menu |
-| `display_sources_menu()` | Shows sources menu |
-| `send_request()` | Sends request to server |
-| `handle_headlines_menu()` | Handles headlines options |
-| `handle_sources_menu()` | Handles sources options |
+| `display_Main_Menu()` | Shows main menu |
+| `display_Headlines_Menu()` | Shows headlines menu |
+| `display_Sources_Menu()` | Shows sources menu |
+| `send_Request()` | Sends request to server |
+| `handle_Headlines_Menu()` | Handles headlines options |
+| `handle_Sources_Menu()` | Handles sources options |
 | `main()` | Connects to the server and runs menus, and does not run if the file is imported unless it calls the main() function |
 
 
