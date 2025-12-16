@@ -2,7 +2,7 @@ import json
 import socket
 
 hostIP="127.0.0.1"
-port=5060
+port=5000
 
 Countries=["au", "ca", "jp", "ae", "sa", "kr", "us", "ma"]
 Languages=["ar", "en" ]
@@ -60,17 +60,17 @@ def display_Languages():
 
 
 
-def display_Headlies_List(data):
+def display_Headlines_List(data):
     print("\n"+"*"*15+" Headlines "+"*"*15)
 
     if not data:
-        print("Can't found results. ")
+        print("Can't find results. ")
         return
     for item in data:
-        print(f"\n[{item["index"]}]")
-        print(f"Source: {item["source_Name"]}")
-        print(f"Author: {item["author"]}")
-        print(f"Title: {item["title"]}")
+        print(f"\n[{item['index']}]")
+        print(f"Source: {item['source_Name']}")
+        print(f"Author: {item['author']}")
+        print(f"Title: {item['title']}")
     print("*"*50)
 
 
@@ -144,7 +144,7 @@ def handle_Headlines_Menu(CSocket):
 
             if response.get("status")== "success" :
                 headlines=response.get("data" ,[])
-                display_Headlies_List(headlines)
+                display_Headlines_List(headlines)
 
                 if headlines:
                     detail =input("\nenter number for details or (0 to skip)")
