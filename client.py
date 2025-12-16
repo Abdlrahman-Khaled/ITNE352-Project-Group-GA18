@@ -61,7 +61,7 @@ def display_Languages():
 
 
 def display_Headlies_List(data):
-    print("\n"+"*"*15+" Headlines Details "+"*"*15)
+    print("\n"+"*"*15+" Headlines "+"*"*15)
 
     if not data:
         print("Can't found results. ")
@@ -158,8 +158,97 @@ def handle_Headlines_Menu(CSocket):
                         else:
                             print("Error geting details")
             else:
-                print("reeor: "+response.get("message", "Unknown reeor"))
+                print("Error: " + response.get("message", "Unknown Error"))
 
+
+
+
+
+
+def display_Sources_List(data):
+    print("\n"+"*"*15+" Sources "+"*"*15)
+
+    if not data:
+        print("Can't found results. ")
+        return
+    for item in data:
+        print(f"[{item['index']}]{item['source_name']}")
+
+    print("*"*50)
+
+
+
+def display_Sources_Details(data):
+    print("\n"+"*"*15+" Sources Details "+"*"*15)
+
+    print(f"name: {data["source_name"]}")
+    print(f"Country: {data["country"]}")
+    print(f"Description: {data["description"]}")
+    print(f"URL: {data["URL"]}")
+    print(f"Category: {data["Category"]}")
+    print(f"Language: {data["Language"]}")
+
+    print("*"*50)
+
+
+
+
+
+def handle_Sources_Menu(CSocket):
+    while True:
+        display_Sources_Menu()
+        uesr_Choice = input("Enter your choice (1-5): ")
+
+        request = None
+
+        if uesr_Choice == "1":
+            display_Categories()
+            index = get_Choice("Select category(1-6)",6)
+            request = {"type": "sources", "option": "category", "value": Categories[index-1]}
+
+        elif uesr_Choice == "2":
+            display_Countries()
+            index = get_Choice("Select country(1-8):", 8)
+            request = {"type": "sources", "option": "country", "value": Countries[index-1]}
+
+
+        elif uesr_Choice == "3":
+            display_Languages()
+            index = get_Choice("Select languages(1-2):", 2)
+            request = {"type": "sources", "option": "languages", "value": Languages[index - 1]}
+
+        elif uesr_Choice == "4":
+            request = {"type": "sources", "option": "all", "value": ""}
+
+
+        elif uesr_Choice == "5":
+            return
+
+        else:
+            print("Invalid value")
+            continue
+
+        if request:
+
+            response = send_Request(CSocket, request)
+
+            if response.get("status") == "success":
+                sources = response.get("data", [])
+                display_Headlies_List(sources)
+
+                if sources:
+                    detail = input("\nenter number for details or (0 to skip)")
+                    if detail != "0":
+                        datail_Request = {"type": "source_details", "index": detail}
+                        detail_Response = send_Request(CSocket, datail_Request)
+
+                        if detail_Response.get("status") == "success":
+                            display_Sources_Menu(detail_Response.get("data",{ }))
+
+                        else:
+                            print("Error geting details")
+            else:
+                print("Error: " + response.get("message", "Unknown Error"))
 
 
 
