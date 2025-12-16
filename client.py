@@ -34,39 +34,78 @@ def display_Sources_Menu():
 3.Search by language    
 4.List all 
 5.Back to the main menu    """)
+    print("*"*50)
+
+
+
+
+
+
+
+def display_Countries():
+    print("\nCountries: ")
+    for num,countri in enumerate(Countries,1):
+        print(f"{num}.{countri}")
+
+
+def display_Categories():
+    print("\nCategories: ")
+    for num,categ in enumerate(Categories,1):
+        print(f"{num}.{categ}")
+
+
+
+
+def display_Languages():
+    print("\nLanguages: ")
+    for num,lang in enumerate(Languages,1):
+        print(f"{num}.{lang}")
+
+
+
+
+display_Countries()
+display_Categories()
+display_Languages()
+
+
+
+
+
+
 
 
 def main():
     CSocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    try:
+            CSocket.connect((hostIP,port))
+            print("\n"+"*"*15+" NEWS SERVICE SERVER "+"*"*15)
+            Cname=input("Enter your name :")
+            CSocket.sendall(Cname.encode("UTF-8"))
+            response=CSocket.recv(2048).decode("UTF-8")
+            print("server:"+response)
 
-   # CSocket.connect((hostIP,port))
-    print("\n"+"*"*15+" NEWS SERVICE SERVER "+"*"*15)
-    Cname=input("Enter your name :")
-    # CSocket.sendall(Cname.encode("UTF-8"))
-    #response=CSocket.recv(2048).decode("UTF-8")
-    #print("server:"+response)
+            while True:
 
-    while True:
-        try:
-            display_Main_Menu()
-            user_Choice=input("Enter your choice(1,2,or 3):")
+                display_Main_Menu()
+                user_Choice=input("Enter your choice(1,2,or 3):")
 
-            if user_Choice=="1":
-                pass
-            elif user_Choice=="2":
-                pass
-            elif user_Choice=="3":
-                pass
-            else:
-                print("Invalid choice")
+                if user_Choice=="1":
+                    pass
+                elif user_Choice=="2":
+                    pass
+                elif user_Choice=="3":
+                    pass
+                else:
+                     print("Invalid choice")
 
-        except ConnectionRefusedError:
-            print("can't connect to server,The server is runing?")
-        except Exception as E:
-            print("The Error is : ",E)
-        finally:
-         CSocket.close()
+    except ConnectionRefusedError:
+        print("can't connect to server,The server is runing?")
+    except Exception as E:
+        print("The Error is : ",E)
+    finally:
+        CSocket.close()
 
-main()
+
 
 
